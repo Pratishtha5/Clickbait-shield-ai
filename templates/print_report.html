@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ClickBait Shield AI — Forensic Analysis Report ({{ verdict.id }})</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 1.5cm;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    }
+    body {
+      background: #ffffff;
+      color: #111827;
+      font-size: 11pt;
+      line-height: 1.5;
+      padding: 20px;
+    }
+    .print-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 12px 18px;
+      margin-bottom: 25px;
+    }
+    .btn-print {
+      background: #0f172a;
+      color: #ffffff;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 10pt;
+      cursor: pointer;
+    }
+    .btn-back {
+      color: #0284c7;
+      text-decoration: none;
+      font-size: 10pt;
+      font-weight: 500;
+    }
+    @media print {
+      .print-controls {
+        display: none !important;
+      }
+      body {
+        padding: 0;
+      }
+    }
+    /* Report Layout */
+    .report-header {
+      border-bottom: 2px solid #0f172a;
+      padding-bottom: 12px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    .report-title {
+      font-size: 18pt;
+      font-weight: 800;
+      color: #0f172a;
+      letter-spacing: -0.5px;
+    }
+    .report-sub {
+      font-size: 9.5pt;
+      color: #475569;
+      margin-top: 2px;
+    }
+    .report-meta {
+      text-align: right;
+      font-size: 8.5pt;
+      color: #64748b;
+      font-family: monospace;
+    }
+    .headline-box {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-left: 4px solid #0284c7;
+      border-radius: 6px;
+      padding: 14px 18px;
+      margin-bottom: 20px;
+    }
+    .headline-label {
+      font-size: 8.5pt;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: #64748b;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+    .headline-text {
+      font-size: 13pt;
+      font-weight: 700;
+      color: #0f172a;
+      line-height: 1.4;
+    }
+    /* Verdict Summary Card */
+    .verdict-grid {
+      display: grid;
+      grid-template-columns: 160px 1fr;
+      gap: 16px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      padding: 16px;
+      margin-bottom: 20px;
+    }
+    .score-block {
+      text-align: center;
+      border-right: 1px solid #cbd5e1;
+      padding-right: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .score-value {
+      font-size: 32pt;
+      font-weight: 900;
+      line-height: 1;
+    }
+    .score-label {
+      font-size: 8pt;
+      text-transform: uppercase;
+      color: #64748b;
+      font-weight: 700;
+      margin-top: 4px;
+    }
+    .threat-tag {
+      display: inline-block;
+      font-size: 9pt;
+      font-weight: 800;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 4px;
+      margin-top: 6px;
+    }
+    .threat-tag.critical { background: #fee2e2; color: #b91c1c; border: 1px solid #f87171; }
+    .threat-tag.safe { background: #dcfce7; color: #15803d; border: 1px solid #4ade80; }
+    .threat-tag.moderate { background: #fef3c7; color: #b45309; border: 1px solid #fcd34d; }
+
+    .verdict-explanation h3 {
+      font-size: 11pt;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 6px;
+    }
+    .verdict-explanation p {
+      font-size: 10pt;
+      color: #334155;
+      margin-bottom: 8px;
+    }
+    /* Section Styles */
+    .section-title {
+      font-size: 11pt;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-bottom: 1px solid #cbd5e1;
+      padding-bottom: 4px;
+      margin: 22px 0 10px 0;
+      color: #0f172a;
+    }
+    .bullet-list {
+      list-style-type: square;
+      padding-left: 20px;
+      font-size: 9.5pt;
+      color: #334155;
+      margin-bottom: 12px;
+    }
+    .bullet-list li {
+      margin-bottom: 4px;
+    }
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 9pt;
+      margin-bottom: 16px;
+    }
+    th, td {
+      border: 1px solid #cbd5e1;
+      padding: 6px 10px;
+      text-align: left;
+    }
+    th {
+      background: #f1f5f9;
+      font-weight: 700;
+      color: #0f172a;
+    }
+    tr:nth-child(even) {
+      background: #f8fafc;
+    }
+    .badge-clickbait {
+      color: #b91c1c;
+      font-weight: 700;
+    }
+    .badge-legitimate {
+      color: #15803d;
+      font-weight: 700;
+    }
+    /* Footer */
+    .report-footer {
+      margin-top: 30px;
+      border-top: 1px solid #cbd5e1;
+      padding-top: 10px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 8pt;
+      color: #64748b;
+    }
+  </style>
+</head>
+<body>
+  <!-- Print Controls (Hidden on print) -->
+  <div class="print-controls">
+    <div>
+      <strong>ClickBait Shield AI — Forensic Model Analysis Sheet</strong>
+      <span style="display:block; font-size: 9pt; color: #64748b;">Ready for high-resolution print or PDF export.</span>
+    </div>
+    <div style="display: flex; gap: 10px; align-items: center;">
+      <a href="/" class="btn-back">← Back to Dashboard</a>
+      <button onclick="window.print()" class="btn-print">🖨️ Print / Save as PDF</button>
+    </div>
+  </div>
+
+  <!-- Report Header -->
+  <header class="report-header">
+    <div>
+      <h1 class="report-title">ClickBait Shield AI</h1>
+      <div class="report-sub">Multi-Model Forensic Telemetry & Linguistic Attribution Report</div>
+    </div>
+    <div class="report-meta">
+      <div>Scan ID: {{ verdict.id }}</div>
+      <div>Timestamp: {{ verdict.timestamp }}</div>
+      <div>Ensemble Latency: {{ verdict.ensemble_latency_ms }} ms</div>
+    </div>
+  </header>
+
+  <!-- Evaluated Headline -->
+  <div class="headline-box">
+    <div class="headline-label">Evaluated Headline Under Forensic Test</div>
+    <div class="headline-text">"{{ verdict.headline }}"</div>
+  </div>
+
+  <!-- Consensus Verdict Summary -->
+  <div class="verdict-grid">
+    <div class="score-block">
+      <div class="score-value" style="color: {{ '#b91c1c' if verdict.consensus_score >= 75 else '#b45309' if verdict.consensus_score >= 50 else '#15803d' }};">
+        {{ verdict.consensus_score }}%
+      </div>
+      <div class="score-label">Clickbait Threat Index</div>
+      <div>
+        <span class="threat-tag {{ 'critical' if verdict.consensus_score >= 75 else 'moderate' if verdict.consensus_score >= 50 else 'safe' }}">
+          {{ verdict.threat_level }}
+        </span>
+      </div>
+    </div>
+
+    <div class="verdict-explanation">
+      <h3>Explainable Forensic Assessment</h3>
+      <p>{{ verdict.explicable_analysis.primary_summary }}</p>
+      <p><strong>Actionable Finding:</strong> {{ verdict.explicable_analysis.actionable_verdict }}</p>
+    </div>
+  </div>
+
+  <!-- Section 1: Psychological & Syntactic Mechanisms -->
+  <h2 class="section-title">1. Explanatory Justification & Cognitive Levers</h2>
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+    <div>
+      <strong>Psychological / Emotional Triggers:</strong>
+      <ul class="bullet-list">
+        {% for lever in verdict.explicable_analysis.psychological_levers %}
+        <li>{{ lever }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+    <div>
+      <strong>Syntactic & Structural Signals:</strong>
+      <ul class="bullet-list">
+        {% for sig in verdict.explicable_analysis.syntactic_signals %}
+        <li>{{ sig }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+
+  <!-- Section 2: 5-Model Multi-Architecture Comparison -->
+  <h2 class="section-title">2. 5-Model Individual Architecture Breakdown</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Model Architecture</th>
+        <th>Classification</th>
+        <th>Risk Score</th>
+        <th>Confidence</th>
+        <th>Latency</th>
+        <th>Key Factors & Decision Path</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for m in verdict.model_results %}
+      <tr>
+        <td>
+          <strong>{{ m.name }}</strong><br>
+          <span style="font-size: 7.5pt; color: #64748b;">{{ m.model_type }}</span>
+        </td>
+        <td>
+          <span class="{{ 'badge-clickbait' if m.prediction == 'Clickbait' else 'badge-legitimate' }}">
+            {{ m.prediction }}
+          </span>
+        </td>
+        <td><strong>{{ m.percentage }}%</strong></td>
+        <td>{{ m.confidence }}</td>
+        <td>{{ m.latency_ms }}ms</td>
+        <td>
+          <ul style="padding-left: 14px; margin: 0; font-size: 8pt;">
+            {% for factor in m.key_factors %}
+            <li>{{ factor }}</li>
+            {% endfor %}
+          </ul>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <!-- Section 3: Word-by-Word Saliency Attribution Table -->
+  <h2 class="section-title">3. Word-by-Word Token Attribution Table</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Token</th>
+        <th>Clean Form</th>
+        <th>Attribution Score</th>
+        <th>Category</th>
+        <th>Impact %</th>
+        <th>Linguistic Role / Explanation</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for t in verdict.tokens %}
+      <tr>
+        <td><strong>{{ t.token }}</strong></td>
+        <td><code>{{ t.clean_token }}</code></td>
+        <td>{{ t.score }}</td>
+        <td>
+          <span style="font-size: 8pt; font-weight: 700; color: {{ '#b91c1c' if t.category == 'high_clickbait' else '#b45309' if t.category == 'moderate_clickbait' else '#15803d' if t.category == 'factual' else '#64748b' }};">
+            {{ t.category | upper }}
+          </span>
+        </td>
+        <td>{{ t.attribution_percent }}%</td>
+        <td>{{ t.explanation or 'Neutral lexical element' }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <!-- Section 4: Quantitative Lexical Indicators -->
+  <h2 class="section-title">4. Quantitative Lexical Indicators</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Words</th>
+        <th>Characters</th>
+        <th>Exclamation Marks</th>
+        <th>Question Marks</th>
+        <th>Uppercase %</th>
+        <th>Emotional Valence</th>
+        <th>Listicle Bait</th>
+        <th>Curiosity Gap</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>{{ verdict.lexical_metrics.word_count }}</td>
+        <td>{{ verdict.lexical_metrics.char_count }}</td>
+        <td>{{ verdict.lexical_metrics.exclamation_count }}</td>
+        <td>{{ verdict.lexical_metrics.question_count }}</td>
+        <td>{{ verdict.lexical_metrics.uppercase_ratio }}%</td>
+        <td>{{ verdict.lexical_metrics.emotional_valence }}</td>
+        <td>{{ 'YES' if verdict.lexical_metrics.has_number_list_bait else 'NO' }}</td>
+        <td>{{ 'YES' if verdict.lexical_metrics.has_curiosity_gap else 'NO' }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Footer -->
+  <footer class="report-footer">
+    <div>ClickBait Shield AI — Multi-Model Verification Platform</div>
+    <div>Document Ref: {{ verdict.id }}</div>
+    <div>Page 1 of 1 — Generated from Python 3.14 Engine</div>
+  </footer>
+</body>
+</html>

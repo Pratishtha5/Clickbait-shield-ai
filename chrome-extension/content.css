@@ -1,0 +1,41 @@
+/* In-page ClickBait Shield AI Badge */
+.cb-shield-badge {
+  display: inline-flex !important;
+  align-items: center !important;
+  margin-left: 8px !important;
+  padding: 2px 7px !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  border-radius: 4px !important;
+  cursor: pointer !important;
+  vertical-align: middle !important;
+  line-height: 1.2 !important;
+  text-decoration: none !important;
+  user-select: none !important;
+  transition: transform 0.15s ease, box-shadow 0.15s ease !important;
+  z-index: 9999 !important;
+}
+
+.cb-shield-badge:hover {
+  transform: translateY(-1px) scale(1.05) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4) !important;
+}
+
+.cb-shield-badge.critical {
+  background-color: rgba(239, 68, 68, 0.9) !important;
+  color: #ffffff !important;
+  border: 1px solid #ef4444 !important;
+}
+
+.cb-shield-badge.moderate {
+  background-color: rgba(245, 158, 11, 0.9) !important;
+  color: #0b0f17 !important;
+  border: 1px solid #f59e0b !important;
+}
+
+.cb-shield-badge.safe {
+  background-color: rgba(16, 185, 129, 0.85) !important;
+  color: #ffffff !important;
+  border: 1px solid #10b981 !important;
+}

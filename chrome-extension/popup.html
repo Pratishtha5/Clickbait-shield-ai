@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ClickBait Shield AI</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup-container">
+    <!-- Header -->
+    <header class="popup-header">
+      <div class="brand">
+        <img src="icon48.png" alt="Logo" class="logo-img">
+        <div>
+          <h1 class="brand-title">ClickBait Shield AI</h1>
+          <span class="brand-sub">5-Model Forensic Detector</span>
+        </div>
+      </div>
+      <div class="header-right">
+        <span class="status-dot" id="server-status" title="Checking local Python engine..."></span>
+      </div>
+    </header>
+
+    <!-- Headline Input Area -->
+    <div class="input-section">
+      <div class="input-wrapper">
+        <textarea id="headline-input" rows="2" placeholder="Paste headline or analyze tab..."></textarea>
+      </div>
+      <div class="button-row">
+        <button id="btn-use-tab" class="btn-secondary" title="Grab current page title">📄 Grab Tab</button>
+        <button id="btn-analyze" class="btn-primary">⚡ Analyze</button>
+      </div>
+
+      <!-- Quick Preset Chips -->
+      <div class="preset-chips">
+        <button class="chip-preset" data-text="You Won't Believe What She Looked Like After 30 Days!">Celery Juice (Bait)</button>
+        <button class="chip-preset" data-text="15 Shocking Secrets Flight Attendants Don't Want You To Know">Flight Secrets</button>
+        <button class="chip-preset" data-text="Federal Reserve Cuts Benchmark Interest Rates by 25 Basis Points">Fed Rates (Safe)</button>
+      </div>
+    </div>
+
+    <!-- Loading State -->
+    <div id="loading" class="loading-state hidden">
+      <div class="spinner"></div>
+      <span>Evaluating Linear, Logistic, KMeans, RF & 1D CNN...</span>
+    </div>
+
+    <!-- Results Section -->
+    <div id="result-section" class="result-section hidden">
+      <!-- Verdict Card -->
+      <div class="verdict-card" id="verdict-card">
+        <div class="score-row">
+          <div class="score-display">
+            <span class="score-num" id="score-val">0</span>
+            <span class="score-pct">%</span>
+          </div>
+          <div class="verdict-meta">
+            <span class="threat-badge" id="threat-badge">SAFE</span>
+            <span class="consensus-label" id="consensus-info">5 Models Evaluated</span>
+          </div>
+        </div>
+        <p class="actionable-summary" id="actionable-text"></p>
+      </div>
+
+      <!-- 5-Model Multi-Model Breakdown -->
+      <div class="models-section">
+        <span class="section-title">5-Model Consensus Breakdown</span>
+        <div class="models-mini-grid" id="models-mini-grid">
+          <!-- Populated dynamically via popup.js -->
+        </div>
+      </div>
+
+      <!-- Saliency Tokens -->
+      <div class="tokens-section">
+        <span class="section-title">Linguistic Attribution (Saliency)</span>
+        <div class="token-container" id="token-chips"></div>
+      </div>
+
+      <!-- Explainability Levers -->
+      <div class="explain-section" id="explain-box">
+        <span class="section-title">Forensic Indicators</span>
+        <ul class="reason-list" id="reasons-list"></ul>
+      </div>
+
+      <!-- Actions -->
+      <div class="card-footer">
+        <button id="btn-open-dash" class="btn-link">📊 Open Full Studio & Print Report ↗</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

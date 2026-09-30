@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ClickBait Shield AI — Explainable Multi-Model Headline Forensic System</title>
+  <meta name="description" content="Transparent, multi-model AI clickbait detector with token saliency, decision trees, neural convolutions, and printable forensic reports.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+  <!-- Printable Forensic Report Container (Shown during window.print) -->
+  <div id="print-dossier" class="print-only"></div>
+
+  <!-- Main Web App -->
+  <div class="app-layout no-print">
+    <!-- Navbar -->
+    <header class="navbar">
+      <div class="nav-container">
+        <div class="brand">
+          <div class="brand-logo">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              <path d="M12 8v4"/>
+              <path d="M12 16h.01"/>
+            </svg>
+          </div>
+          <div>
+            <h1 class="brand-name">ClickBait Shield AI</h1>
+            <span class="brand-subtitle">Explainable Multi-Model Forensics</span>
+          </div>
+        </div>
+
+        <nav class="nav-tabs" role="tablist">
+          <button class="nav-tab active" data-tab="single" role="tab">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            Analyzer
+          </button>
+          <button class="nav-tab" data-tab="batch" role="tab">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            Batch Scanner
+          </button>
+          <button class="nav-tab" data-tab="benchmarks" role="tab">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
+            Benchmarks
+          </button>
+        </nav>
+
+        <div class="nav-actions">
+          <span class="status-indicator" title="Connected to Python 3.14 Engine">
+            <span class="pulse-dot"></span>
+            Python Engine Active
+          </span>
+          <button id="btn-show-extension-modal" class="btn-extension">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            Chrome Extension
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- ================= TAB 1: Single Headline Analyzer ================= -->
+      <section id="view-single" class="view-panel active">
+        <!-- Input Hero Card -->
+        <div class="card input-card">
+          <div class="card-header-clean">
+            <label for="headline-input" class="input-label">Headline Forensic Verification</label>
+            <span class="badge-hint">5-Model Consensus • Saliency Attribution</span>
+          </div>
+
+          <div class="input-row">
+            <div class="input-field-wrapper">
+              <input 
+                type="text" 
+                id="headline-input" 
+                class="headline-input" 
+                placeholder="Enter headline to inspect..." 
+                value="{{ prefilled_headline or 'You Won\'t Believe What She Looked Like After Drinking Celery Juice For 30 Days!' }}"
+              >
+              <button id="btn-clear" class="btn-clear" title="Clear text">&times;</button>
+            </div>
+            <button id="btn-analyze" class="btn-primary">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              <span>Analyze</span>
+            </button>
+          </div>
+
+          <!-- Quick Presets -->
+          <div class="presets-row">
+            <span class="presets-label">Test Presets:</span>
+            <div class="presets-chips">
+              <button class="preset-chip" data-text="You Won't Believe What She Looked Like After Drinking Celery Juice For 30 Days!">Celery Juice (98%)</button>
+              <button class="preset-chip" data-text="15 Shocking Secrets Flight Attendants Don't Want You To Know (#7 Will Stun You!)">Flight Secrets (#7 Stunner)</button>
+              <button class="preset-chip" data-text="This One Simple Kitchen Hack Will Melt Belly Fat Overnight, Doctors Are Furious!">Melt Belly Fat (99%)</button>
+              <button class="preset-chip" data-text="Federal Reserve Cuts Benchmark Interest Rates by 25 Basis Points Amid Easing Inflation">Fed Rates Cut (2%)</button>
+              <button class="preset-chip" data-text="James Webb Space Telescope Detects Water Vapor in Rocky Exoplanet Atmosphere, NASA Reports">NASA Exoplanet (2%)</button>
+              <button class="preset-chip" data-text="Why Tech Giants Are Quietly Investing Billions Into Nuclear Micro-Reactors">Nuclear Micro-Reactors (48%)</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Loading State -->
+        <div id="analysis-loading" class="analysis-loading hidden">
+          <div class="loading-ring"></div>
+          <p>Evaluating Linear Regression, Logistic Regression, KMeans, Random Forest & 1D CNN...</p>
+        </div>
+
+        <!-- Results Container -->
+        <div id="results-container" class="results-container">
+          <!-- 1. Top Consensus Verdict Banner -->
+          <div class="card verdict-card" id="verdict-banner">
+            <div class="verdict-header">
+              <div class="verdict-score-block">
+                <div class="score-circle" id="score-circle">
+                  <span class="score-number" id="consensus-score">--</span>
+                  <span class="score-symbol">%</span>
+                </div>
+                <div>
+                  <div class="threat-pill-wrapper">
+                    <span class="threat-pill" id="threat-level-badge">CALCULATING...</span>
+                    <span class="verdict-agree-text" id="models-consensus-text">5 Models in Consensus</span>
+                  </div>
+                  <h2 class="verdict-headline" id="display-headline"></h2>
+                  <p class="actionable-verdict" id="actionable-verdict"></p>
+                </div>
+              </div>
+
+              <!-- Action Buttons -->
+              <div class="verdict-actions">
+                <button id="btn-print-analysis" class="btn-action-primary" title="Print a professional forensic report">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+                  Print Analysis Report
+                </button>
+                <button id="btn-copy-summary" class="btn-action-secondary" title="Copy explainable summary">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                  Copy Summary
+                </button>
+              </div>
+            </div>
+
+            <div class="telemetry-bar">
+              <div class="telemetry-item">
+                <span class="telem-label">Inference Latency:</span>
+                <span class="telem-val" id="latency-val">-- ms</span>
+              </div>
+              <div class="telemetry-item">
+                <span class="telem-label">Scan ID:</span>
+                <span class="telem-val font-mono" id="scan-id-val">--</span>
+              </div>
+              <div class="telemetry-item">
+                <span class="telem-label">Timestamp:</span>
+                <span class="telem-val" id="timestamp-val">--</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. Transparent Explainability (XAI) & Token Saliency Section -->
+          <div class="grid-2-col">
+            <!-- Token Saliency Heatmap -->
+            <div class="card explain-card">
+              <div class="card-title-row">
+                <div class="title-with-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12h20"/><path d="M20 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-6"/><path d="M12 2v10"/></svg>
+                  <h3>Token Saliency & Attribution</h3>
+                </div>
+                <span class="subtle-tag">Hover words for attribution</span>
+              </div>
+              <p class="card-desc">Visual heatmap showing token-level influence on the classification verdict.</p>
+              
+              <div class="saliency-box" id="saliency-heatmap"></div>
+
+              <!-- Legend -->
+              <div class="saliency-legend">
+                <div class="legend-item"><span class="legend-dot high-bait"></span> Clickbait Trigger (&ge;70%)</div>
+                <div class="legend-item"><span class="legend-dot moderate-bait"></span> Sensational Term (25-69%)</div>
+                <div class="legend-item"><span class="legend-dot factual"></span> Journalistic Anchor (&le;-30%)</div>
+                <div class="legend-item"><span class="legend-dot neutral"></span> Neutral Syntactic Token</div>
+              </div>
+            </div>
+
+            <!-- Plain-English Model Explanation -->
+            <div class="card explain-card">
+              <div class="card-title-row">
+                <div class="title-with-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                  <h3>Why Was This Flagged? (Model Explainability)</h3>
+                </div>
+                <span class="subtle-tag">Interpretable AI</span>
+              </div>
+              <p class="card-desc" id="primary-summary-text"></p>
+
+              <div class="reasons-block">
+                <h4 class="reasons-subtitle">Psychological / Cognitive Triggers:</h4>
+                <ul class="reasons-bullet-list" id="psychological-list"></ul>
+
+                <h4 class="reasons-subtitle">Syntactic & Structural Signals:</h4>
+                <ul class="reasons-bullet-list" id="syntactic-list"></ul>
+
+                <h4 class="reasons-subtitle">Verified Journalistic Anchors:</h4>
+                <ul class="reasons-bullet-list" id="factual-list"></ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. 5-Model Multi-Model Consensus Breakdown -->
+          <div class="card models-card">
+            <div class="card-title-row">
+              <div class="title-with-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+                <h3>5-Model Individual Architecture Breakdown</h3>
+              </div>
+              <span class="subtle-tag">Weighted Ensemble</span>
+            </div>
+            <p class="card-desc">Comparison of predictions across deep learning, ensemble trees, linear representations, and distance instances.</p>
+
+            <div class="models-grid" id="models-grid"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= TAB 2: Batch Scanner ================= -->
+      <section id="view-batch" class="view-panel">
+        <div class="card">
+          <div class="card-title-row">
+            <div class="title-with-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              <h2>Batch Headline Verification</h2>
+            </div>
+            <button id="btn-batch-sample" class="btn-action-secondary">Load Sample Feed</button>
+          </div>
+          <p class="card-desc">Paste multiple headlines (one per line) to evaluate up to 50 headlines concurrently.</p>
+
+          <textarea id="batch-input" class="batch-textarea" rows="7" placeholder="Paste headlines here, one per line..."></textarea>
+          
+          <div class="batch-actions-row">
+            <button id="btn-run-batch" class="btn-primary">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              Run Batch Verification
+            </button>
+            <span id="batch-stats" class="batch-stats-text"></span>
+          </div>
+
+          <div id="batch-results-table-container" class="batch-table-container hidden">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Evaluated Headline</th>
+                  <th>Consensus Score</th>
+                  <th>Threat Level</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="batch-table-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= TAB 3: Model Benchmarks ================= -->
+      <section id="view-benchmarks" class="view-panel">
+        <div class="card">
+          <div class="card-title-row">
+            <div class="title-with-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
+              <h2>Model Benchmark Telemetry (37,000+ Sample Dataset)</h2>
+            </div>
+            <span class="subtle-tag">christinacdl/clickbait_detection_dataset</span>
+          </div>
+          <p class="card-desc">Rigorous statistical evaluation across test partitions with stratified K-fold cross-validation.</p>
+
+          <div class="table-responsive">
+            <table class="data-table" id="benchmarks-table">
+              <thead>
+                <tr>
+                  <th>Model Architecture</th>
+                  <th>Type</th>
+                  <th>Accuracy</th>
+                  <th>Precision</th>
+                  <th>Recall</th>
+                  <th>F1 Score</th>
+                  <th>Latency</th>
+                  <th>ROC-AUC</th>
+                  <th>MCC</th>
+                </tr>
+              </thead>
+              <tbody id="benchmarks-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-container">
+        <div class="footer-left">
+          <span class="footer-brand">ClickBait Shield AI</span>
+          <span class="footer-dot">•</span>
+          <span>Explainable ML Forensics Platform</span>
+        </div>
+        <div class="footer-right">
+          <span>Python 3.14 + FastAPI Microservice</span>
+          <span class="footer-dot">•</span>
+          <span>Chrome Manifest V3 Supported</span>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Modal: Chrome Extension Quick Setup -->
+  <div id="extension-modal" class="modal-overlay hidden">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <div class="title-with-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#06b6d4" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          <h3>ClickBait Shield AI — Chrome Extension</h3>
+        </div>
+        <button id="btn-close-modal" class="btn-close-modal">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <p class="modal-intro">
+          Analyze headlines in real time directly inside Google Chrome, Edge, or Brave. Injects risk badges on YouTube, Reddit, and news sites, plus right-click menu analysis.
+        </p>
+
+        <div class="steps-list">
+          <div class="step-card">
+            <span class="step-badge">1</span>
+            <div>
+              <strong>Download Extension Package</strong>
+              <p>Download the zipped extension ready to load into your browser.</p>
+              <a href="/api/download-extension" class="btn-download-zip" download>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Download Extension (.zip)
+              </a>
+            </div>
+          </div>
+
+          <div class="step-card">
+            <span class="step-badge">2</span>
+            <div>
+              <strong>Unzip the Folder</strong>
+              <p>Extract the downloaded ZIP file to a convenient folder on your computer.</p>
+            </div>
+          </div>
+
+          <div class="step-card">
+            <span class="step-badge">3</span>
+            <div>
+              <strong>Load in Chrome / Edge</strong>
+              <p>
+                Open <code>chrome://extensions</code>, toggle on <b>Developer mode</b> (top right), click <b>Load unpacked</b> (top left), and select the extracted folder.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button id="btn-close-modal-bottom" class="btn-action-secondary">Got it</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/static/js/app.js"></script>
+</body>
+</html>

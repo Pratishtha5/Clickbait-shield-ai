@@ -1,0 +1,138 @@
+[
+  {
+    "id": "linear_reg",
+    "name": "Linear Regression",
+    "category": "Regularized Linear (Ridge)",
+    "accuracy": 95.35,
+    "precision": 95.38,
+    "recall": 95.85,
+    "f1_score": 95.62,
+    "latency_ms": 0.5,
+    "roc_auc": 0.99,
+    "mcc": 0.907,
+    "specificity": 94.79,
+    "confusion_matrix": {
+      "tp": 1919,
+      "fp": 93,
+      "fn": 83,
+      "tn": 1692,
+      "total": 3787
+    },
+    "strengths": "Direct squared error minimization; fast linear regression hyperplane boundary.",
+    "weaknesses": "Unbounded predictions requiring range clipping to [0, 1].",
+    "hyperparameters": {
+      "alpha": 1.0,
+      "solver": "auto",
+      "loss": "squared_error"
+    }
+  },
+  {
+    "id": "logistic_reg",
+    "name": "Logistic Regression",
+    "category": "Maximum Likelihood Linear",
+    "accuracy": 94.93,
+    "precision": 95.2,
+    "recall": 95.2,
+    "f1_score": 95.2,
+    "latency_ms": 0.5,
+    "roc_auc": 0.989,
+    "mcc": 0.898,
+    "specificity": 94.62,
+    "confusion_matrix": {
+      "tp": 1906,
+      "fp": 96,
+      "fn": 96,
+      "tn": 1689,
+      "total": 3787
+    },
+    "strengths": "Well-calibrated log-odds, transparent feature attribution coefficients.",
+    "weaknesses": "Assumes linear additivity among input word features.",
+    "hyperparameters": {
+      "C": 2.5,
+      "max_iter": 1000,
+      "solver": "lbfgs"
+    }
+  },
+  {
+    "id": "kmeans",
+    "name": "K-Means Clustering",
+    "category": "Centroid Prototype Clustering",
+    "accuracy": 65.49,
+    "precision": 93.82,
+    "recall": 37.16,
+    "f1_score": 53.24,
+    "latency_ms": 0.5,
+    "roc_auc": 0.706,
+    "mcc": 0.422,
+    "specificity": 97.25,
+    "confusion_matrix": {
+      "tp": 744,
+      "fp": 49,
+      "fn": 1258,
+      "tn": 1736,
+      "total": 3787
+    },
+    "strengths": "Geometric prototype alignment; non-parametric centroid proximity scoring.",
+    "weaknesses": "Sensitive to cluster center initialization and high-dimensional sparsity.",
+    "hyperparameters": {
+      "n_clusters": 2,
+      "metric": "cosine_centroid",
+      "batch_size": 2048
+    }
+  },
+  {
+    "id": "random_forest",
+    "name": "Random Forest",
+    "category": "Tree Ensemble",
+    "accuracy": 88.49,
+    "precision": 93.16,
+    "recall": 84.42,
+    "f1_score": 88.57,
+    "latency_ms": 0.5,
+    "roc_auc": 0.955,
+    "mcc": 0.774,
+    "specificity": 93.05,
+    "confusion_matrix": {
+      "tp": 1690,
+      "fp": 124,
+      "fn": 312,
+      "tn": 1661,
+      "total": 3787
+    },
+    "strengths": "Bagging ensemble resistant to overfitting; captures non-linear word interactions.",
+    "weaknesses": "Requires higher memory footprint to serialize multiple decision trees.",
+    "hyperparameters": {
+      "n_estimators": 50,
+      "max_depth": 15,
+      "criterion": "gini"
+    }
+  },
+  {
+    "id": "1d_cnn",
+    "name": "1D Convolutional Neural Network",
+    "category": "Deep Learning (Conv1D + Pooling)",
+    "accuracy": 94.22,
+    "precision": 93.89,
+    "recall": 95.25,
+    "f1_score": 94.57,
+    "latency_ms": 0.5,
+    "roc_auc": 0.985,
+    "mcc": 0.884,
+    "specificity": 93.05,
+    "confusion_matrix": {
+      "tp": 1907,
+      "fp": 124,
+      "fn": 95,
+      "tn": 1661,
+      "total": 3787
+    },
+    "strengths": "Spatial sequence n-gram convolutions with global max-pooling over word order.",
+    "weaknesses": "Fixed maximum token sequence length truncation.",
+    "hyperparameters": {
+      "embedding_dim": 32,
+      "filter_size": 2,
+      "num_filters": 48,
+      "max_len": 20
+    }
+  }
+]
